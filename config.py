@@ -73,6 +73,25 @@ keys = [
     Key(["mod1", "control"], "l", lazy.spawn("slock")),
 
 
+    # Bsp
+    Key([mod], "Down", lazy.layout.down()),
+    Key([mod], "Up", lazy.layout.up()),
+    Key([mod], "Left", lazy.layout.left()),
+    Key([mod], "Right", lazy.layout.right()),
+    Key([mod, "shift"], "Down", lazy.layout.shuffle_down()),
+    Key([mod, "shift"], "Up", lazy.layout.shuffle_up()),
+    Key([mod, "shift"], "Left", lazy.layout.shuffle_left()),
+    Key([mod, "shift"], "Right", lazy.layout.shuffle_right()),
+    Key([mod, "mod1"], "Down", lazy.layout.flip_down()),
+    Key([mod, "mod1"], "Up", lazy.layout.flip_up()),
+    Key([mod, "mod1"], "Left", lazy.layout.flip_left()),
+    Key([mod, "mod1"], "Right", lazy.layout.flip_right()),
+    Key([mod, "control"], "Down", lazy.layout.grow_down()),
+    Key([mod, "control"], "Up", lazy.layout.grow_up()),
+    Key([mod, "control"], "Left", lazy.layout.grow_left()),
+    Key([mod, "control"], "Right", lazy.layout.grow_right()),
+    Key([mod, "shift"], "n", lazy.layout.normalize()),
+
 ]
 
 groups = [Group(i) for i in "12345678"]
@@ -87,9 +106,11 @@ for i in groups:
     ])
 
 layouts = [
+    layout.Bsp(name='DWMlike'),
     layout.MonadTall(name='Tall'),
     layout.VerticalTile(name='VerticalTile'),
     layout.Max(name='Full'),
+    layout.Zoomy(name='Zoom'),
 ]
 
 widget_defaults = dict(
@@ -110,10 +131,29 @@ for screen in range(0, num_screens):
                     widget.Sep(),
                     widget.Prompt(),
                     widget.Sep(),
-                    widget.WindowName(),
+                    widget.Spacer(),
                     widget.Systray(),
                     widget.Clock(format='%Y-%m-%d %a %H:%M:%S'),
+                    widget.Sep(),
                     widget.CurrentLayout(),
+                ],
+                24,
+            ),
+            bottom=bar.Bar(
+                [
+                    widget.Sep(),
+                    widget.WindowTabs(
+                        markup=True,
+                        selected=('<span background="#333333" foreground="#aaffaa">','</span>')
+                    ),
+                    widget.Sep(),
+
+                    widget.MemoryGraph(),
+                    widget.SwapGraph(),
+                    #widget.Wallpaper(
+                    #    directory="~/Wallpapers/",
+                    #    random_selection=True,
+                    #),
                 ],
                 24,
             ),
