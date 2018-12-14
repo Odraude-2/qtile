@@ -15,6 +15,7 @@ s = d.screen()
 r = s.root
 res = r.xrandr_get_screen_resources()._data
 
+# Dynamic multiscreen! (Thanks XRandr)
 num_screens = 0
 for output in res['outputs']:
     print("Output %d:" % (output))
@@ -131,7 +132,10 @@ for screen in range(0, num_screens):
                     widget.Sep(),
                     widget.Prompt(),
                     widget.Sep(),
-                    widget.Spacer(),
+                    widget.WindowTabs(
+                        markup=True,
+                        selected=('<span background="#333333" foreground="#aaffaa">','</span>')
+                    ),
                     widget.Systray(),
                     widget.Clock(format='%Y-%m-%d %a %H:%M:%S'),
                     widget.Sep(),
@@ -142,18 +146,10 @@ for screen in range(0, num_screens):
             bottom=bar.Bar(
                 [
                     widget.Sep(),
-                    widget.WindowTabs(
-                        markup=True,
-                        selected=('<span background="#333333" foreground="#aaffaa">','</span>')
-                    ),
+                    widget.Spacer(),
                     widget.Sep(),
-
                     widget.MemoryGraph(),
                     widget.SwapGraph(),
-                    #widget.Wallpaper(
-                    #    directory="~/Wallpapers/",
-                    #    random_selection=True,
-                    #),
                 ],
                 24,
             ),
