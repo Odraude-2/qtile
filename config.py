@@ -5,6 +5,25 @@ import subprocess
 from libqtile.config import Key, Screen, Group, Drag, Click
 from libqtile.command import lazy
 from libqtile import layout, bar, widget, hook
+from Xlib import X, display
+from Xlib.ext import randr
+from pprint import pprint
+
+
+d = display.Display()
+s = d.screen()
+r = s.root
+res = r.xrandr_get_screen_resources()._data
+
+num_screens = 0
+for output in res['outputs']:
+    print("Output %d:" % (output))
+    mon = d.xrandr_get_output_info(output, res['config_timestamp'])._data
+    print("%s: %d" % (mon['name'], mon['num_preferred']))
+    if mon['num_preferred']:
+        num_screens += 1
+
+print("%d screens found!" % (num_screens))
 
 try:
     from typing import List  # noqa: F401
@@ -80,24 +99,45 @@ widget_defaults = dict(
 )
 extension_defaults = widget_defaults.copy()
 
-screens = [
-    Screen(
-        top=bar.Bar(
-            [
-                widget.Sep(),
-                widget.GroupBox(),
-                widget.Sep(),
-                widget.Prompt(),
-                widget.Sep(),
-                widget.WindowName(),
-                widget.Systray(),
-                widget.Clock(format='%Y-%m-%d %a %H:%M:%S'),
-                widget.CurrentLayout(),
-            ],
-            24,
-        ),
-    ),
-]
+screens = []
+for screen in range(0, num_screens):
+    screens.append(
+        Screen(
+            top=bar.Bar(
+                [
+                    widget.Sep(),
+                    widget.GroupBox(),
+                    widget.Sep(),
+                    widget.Prompt(),
+                    widget.Sep(),
+                    widget.WindowName(),
+                    widget.Systray(),
+                    widget.Clock(format='%Y-%m-%d %a %H:%M:%S'),
+                    widget.CurrentLayout(),
+                ],
+                24,
+            ),
+        )
+    )
+
+#screens = [
+#   Screen(
+#       top=bar.Bar(
+#           [
+#               widget.Sep(),
+#               widget.GroupBox(),
+#               widget.Sep(),
+#               widget.Prompt(),
+#               widget.Sep(),
+#               widget.WindowName(),
+#               widget.Systray(),
+#               widget.Clock(format='%Y-%m-%d %a %H:%M:%S'),
+#               widget.CurrentLayout(),
+#           ],
+#           24,
+#       ),
+#   ),
+#
 
 # Drag floating layouts.
 mouse = [
