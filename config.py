@@ -68,8 +68,8 @@ for i in groups:
     ])
 
 layouts = [
-    MonadTall(name='Tall', **layout_defaults),
-    VerticalTile(name='VerticalTile', **layout_defaults),
+    layout.MonadTall(name='Tall'),
+    layout.VerticalTile(name='VerticalTile'),
     layout.Max(name='Full'),
 ]
 
