@@ -12,4 +12,3 @@ Software used:
 - Terminal: sakura
 - Compositing: Compton
 - Desktop autostart: dex
-
