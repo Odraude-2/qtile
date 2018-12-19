@@ -129,7 +129,7 @@ widget_defaults = dict(
     font='Terminus (TTF)',
     fontsize=14,
     padding=3,
-    background=DARK_GREY
+    background=GREY
 )
 extension_defaults = widget_defaults.copy()
 
@@ -141,10 +141,9 @@ for screen in range(0, num_screens):
             top=bar.Bar(
                 [
                     widget.Prompt(prompt=prompt, background=GREY),
-                    widget.TextBox(text="◤ ", fontsize=45, padding=-8, foreground=GREY, background=DARK_GREY),
-                    widget.CurrentLayoutIcon(scale=0.6, padding=-4,background=DARK_GREY, foreground=GREY),
-                    widget.TextBox(text=" ", padding=2, background=DARK_GREY),
                     widget.TextBox(text="◤ ", fontsize=45, padding=-8, foreground=DARK_GREY, background=GREY),
+                    widget.CurrentLayoutIcon(background=GREY),
+                    widget.TextBox(text="◤ ", fontsize=45, padding=-8, foreground=GREY, background=DARK_GREY),
                     widget.GroupBox(urgent_border=DARK_BLUE,
                         disable_drag=True, highlight_method="block",
                         this_screen_border=DARK_BLUE, other_screen_border=DARK_ORANGE,
