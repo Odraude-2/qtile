@@ -1,14 +1,15 @@
 
 import os
+import socket
 import subprocess
 
 from libqtile.config import Key, Screen, Group, Drag, Click
 from libqtile.command import lazy
 from libqtile import layout, bar, widget, hook
+
 from Xlib import X, display
 from Xlib.ext import randr
 from pprint import pprint
-
 
 d = display.Display()
 s = d.screen()
@@ -38,7 +39,15 @@ def autostart():
     home = os.path.expanduser('~/.config/qtile/autostart.sh')
     subprocess.call([home])
 
+GREY = "#444444"
+DARK_GREY = "#333333"
+BLUE = "#007fcf"
+DARK_BLUE = "#005083"
+ORANGE = "#dd6600"
+DARK_ORANGE = "#582c00"
+
 mod = "mod4"
+hostname = socket.gethostname()
 
 keys = [
     # Switch between windows in current stack pane
@@ -108,73 +117,63 @@ for i in groups:
     ])
 
 layouts = [
-    layout.Bsp(name='DWMlike'),
-    layout.MonadTall(name='Tall'),
-    layout.VerticalTile(name='VerticalTile'),
-    layout.Max(name='Full'),
-    layout.Zoomy(name='Zoom'),
+    layout.Bsp(),
+    layout.MonadTall(),
+    layout.VerticalTile(),
+    layout.Max(),
+    layout.Zoomy(),
+    layout.Floating()
 ]
 
 widget_defaults = dict(
-    font='Fira Code',
-    fontsize=12,
+    font='Terminus (TTF)',
+    fontsize=14,
     padding=3,
+    background=DARK_GREY
 )
 extension_defaults = widget_defaults.copy()
 
 screens = []
 for screen in range(0, num_screens):
+    prompt = "{0}@{1}: ".format(os.environ["USER"], hostname)
     screens.append(
         Screen(
             top=bar.Bar(
                 [
-                    widget.Sep(),
-                    widget.GroupBox(),
-                    widget.Sep(),
-                    widget.Prompt(),
-                    widget.Sep(),
-                    widget.WindowTabs(
-                        markup=True,
-                        selected=('<span background="#333333" foreground="#aaffaa">','</span>')
+                    widget.Prompt(prompt=prompt, background=GREY),
+                    widget.TextBox(text="◤ ", fontsize=45, padding=-8, foreground=GREY, background=DARK_GREY),
+                    widget.CurrentLayoutIcon(scale=0.6, padding=-4,background=DARK_GREY, foreground=GREY),
+                    widget.TextBox(text=" ", padding=2, background=DARK_GREY),
+                    widget.TextBox(text="◤ ", fontsize=45, padding=-8, foreground=DARK_GREY, background=GREY),
+                    widget.GroupBox(urgent_border=DARK_BLUE,
+                        disable_drag=True, highlight_method="block",
+                        this_screen_border=DARK_BLUE, other_screen_border=DARK_ORANGE,
+                        this_current_screen_border=BLUE, other_current_screen_border=ORANGE,
+                        background=DARK_GREY,
                     ),
-                    widget.Systray(),
-                    widget.Clock(format='%Y-%m-%d %a %H:%M:%S'),
-                    widget.Sep(),
-                    widget.CurrentLayout(),
-                ],
-                24,
-            ),
-            bottom=bar.Bar(
-                [
-                    widget.Sep(),
-                    widget.Spacer(),
-                    widget.Sep(),
-                    widget.MemoryGraph(),
-                    widget.SwapGraph(),
+                    widget.TextBox(text="◤ ", fontsize=45, padding=-8, foreground=DARK_GREY,
+background=GREY),
+                    widget.TaskList(
+                        markup=True,
+                        markup_focused='<span background="#333333" foreground="#aaffaa">{}</span>',
+                        background=GREY,
+                        border=DARK_GREY,
+                        urgent_border=DARK_BLUE,
+                    ),
+                    widget.TextBox(text="◤ ", fontsize=45, padding=-8, foreground=GREY, background=DARK_GREY),
+                    widget.Systray(background=DARK_GREY),
+                    widget.TextBox(text="◤ ", fontsize=45, padding=-8, foreground=DARK_GREY, background=GREY),
+                    widget.TextBox(text=" ⚠", foreground=BLUE, fontsize=18, background=GREY),
+                    widget.Notify(background=GREY),
+                    widget.TextBox(text=" ⌚", foreground=BLUE, fontsize=18, background=GREY),
+                    widget.Clock(format='%Y-%m-%d %a %H:%M:%S', background=GREY),
+                    widget.TextBox(text="◤ ", fontsize=45, padding=-8, foreground=GREY, background=DARK_GREY),
+                    widget.CurrentLayout(background=DARK_GREY),
                 ],
                 24,
             ),
         )
     )
-
-#screens = [
-#   Screen(
-#       top=bar.Bar(
-#           [
-#               widget.Sep(),
-#               widget.GroupBox(),
-#               widget.Sep(),
-#               widget.Prompt(),
-#               widget.Sep(),
-#               widget.WindowName(),
-#               widget.Systray(),
-#               widget.Clock(format='%Y-%m-%d %a %H:%M:%S'),
-#               widget.CurrentLayout(),
-#           ],
-#           24,
-#       ),
-#   ),
-#
 
 # Drag floating layouts.
 mouse = [
