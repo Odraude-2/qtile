@@ -90,64 +90,64 @@ keys = [
     Key(
         [mod], "k",
         lazy.layout.down()                        # Switch between windows in current stack pane
-        ),
+    ),
     Key(
         [mod], "j",
         lazy.layout.up()                          # Switch between windows in current stack pane
-        ),
+    ),
     Key(
         [mod, "shift"], "k",
         lazy.layout.shuffle_down()                # Move windows down in current stack
-        ),
+    ),
     Key(
         [mod, "shift"], "j",
         lazy.layout.shuffle_up()                  # Move windows up in current stack
-        ),
+    ),
     Key(
         [mod, "shift"], "l",
         lazy.layout.grow(),                       # Grow size of current window (XmonadTall)
         lazy.layout.increase_nmaster(),           # Increase number in master pane (Tile)
-        ),
+    ),
     Key(
         [mod, "shift"], "h",
         lazy.layout.shrink(),                     # Shrink size of current window (XmonadTall)
         lazy.layout.decrease_nmaster(),           # Decrease number in master pane (Tile)
-        ),
-    Key(
-        [mod, "shift"], "Left",                   # Move window to workspace to the left
-        window_to_prev_group
-        ),
-    Key(
-        [mod, "shift"], "Right",                  # Move window to workspace to the right
-        window_to_next_group
-        ),
-    Key(
-        [mod], "n",
-        lazy.layout.normalize()                   # Restore all windows to default size ratios
-        ),
-    Key(
-        [mod], "m",
-        lazy.layout.maximize()                    # Toggle a window between minimum and maximum sizes
-        ),
+    ),
+Key(
+    [mod, "shift"], "Left",                   # Move window to workspace to the left
+    window_to_prev_group
+),
+Key(
+    [mod, "shift"], "Right",                  # Move window to workspace to the right
+    window_to_next_group
+),
+Key(
+    [mod], "n",
+    lazy.layout.normalize()                   # Restore all windows to default size ratios
+),
+Key(
+    [mod], "m",
+    lazy.layout.maximize()                    # Toggle a window between minimum and maximum sizes
+),
 
     Key(
         [mod, "shift"], "KP_Enter",
         lazy.window.toggle_floating()             # Toggle floating
-        ),
+    ),
     Key(
         [mod, "shift"], "space",
         lazy.layout.rotate(),                     # Swap panes of split stack (Stack)
         lazy.layout.flip()                        # Switch which side main pane occupies (XmonadTall)
-        ),
+    ),
     # Stack controls
     Key(
         [mod], "space",
         lazy.layout.next()                        # Switch window focus to other pane(s) of stack
-        ),
+    ),
     Key(
         [mod, "control"], "Return",
         lazy.layout.toggle_split()                # Toggle between split and unsplit sides of stack
-        ),
+    ),
 
 ]
 
@@ -193,10 +193,7 @@ layouts = [
         section_top = 10,
         panel_width = 320,
         **layout_theme
-        ),
-    layout.Slice(side="left", width=192, name="gimp", role="gimp-toolbox",
-        fallback=layout.Slice(side="right", width=256, role="gimp-dock",
-        fallback=layout.Stack(num_stacks=1, **border_args))),
+    ),
     #layout.Stack(stacks=2, **layout_theme),
     #layout.Columns(**layout_theme),
     #layout.RatioTile(**layout_theme),
@@ -228,13 +225,13 @@ for screen in range(0, num_screens):
                     widget.CurrentLayoutIcon(background=GREY),
                     widget.TextBox(text="◤ ", fontsize=45, padding=-8, foreground=GREY, background=DARK_GREY),
                     widget.GroupBox(urgent_border=DARK_BLUE,
-                        disable_drag=True, highlight_method="block",
-                        this_screen_border=DARK_BLUE, other_screen_border=DARK_ORANGE,
-                        this_current_screen_border=BLUE, other_current_screen_border=ORANGE,
-                        background=DARK_GREY,
-                    ),
+                                    disable_drag=True, highlight_method="block",
+                                    this_screen_border=DARK_BLUE, other_screen_border=DARK_ORANGE,
+                                    this_current_screen_border=BLUE, other_current_screen_border=ORANGE,
+                                    background=DARK_GREY,
+                                    ),
                     widget.TextBox(text="◤ ", fontsize=45, padding=-8, foreground=DARK_GREY,
-background=GREY),
+                                   background=GREY),
                     widget.TaskList(
                         markup=True,
                         markup_focused='<span background="#333333" foreground="#aaffaa">{}</span>',
@@ -253,8 +250,8 @@ background=GREY),
                     widget.CurrentLayout(background=DARK_GREY),
                 ],
                 24,
-             ),
-             bottom=bar.Bar(
+            ),
+            bottom=bar.Bar(
                 [
                     widget.Memory(),
                     widget.Swap(),
