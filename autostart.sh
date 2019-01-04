@@ -1,7 +1,10 @@
 #!/bin/sh
 
-compton -CGb --blur-background --backend glx
+xrdb -I$HOME ~/.Xresources
+
+compton --config ~/.config/compton/compton.conf &
 
 (dex -a -e i3)
 
 feh --randomize --bg-scale ~/.config/qtile/wallpapers/scifi
+urxvtd -q -o -f

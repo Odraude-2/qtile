@@ -33,11 +33,22 @@ except ImportError:
     pass
 
 
-
 @hook.subscribe.startup_once
 def autostart():
     home = os.path.expanduser('~/.config/qtile/autostart.sh')
     subprocess.call([home])
+
+@lazy.function
+def window_to_prev_group(qtile):
+    if qtile.currentWindow is not None:
+        i = qtile.groups.index(qtile.currentGroup)
+        qtile.currentWindow.togroup(qtile.groups[i - 1].name)
+
+@lazy.function
+def window_to_next_group(qtile):
+    if qtile.currentWindow is not None:
+        i = qtile.groups.index(qtile.currentGroup)
+        qtile.currentWindow.togroup(qtile.groups[i + 1].name)
 
 GREY = "#444444"
 DARK_GREY = "#333333"
@@ -50,14 +61,7 @@ mod = "mod4"
 hostname = socket.gethostname()
 
 keys = [
-    # Switch between windows in current stack pane
-    Key([mod], "k", lazy.layout.down()),
-    Key([mod], "j", lazy.layout.up()),
-
-    # Move windows up or down in current stack
-    Key([mod, "control"], "k", lazy.layout.shuffle_down()),
-    Key([mod, "control"], "j", lazy.layout.shuffle_up()),
-
+    Key([mod], "Return", lazy.spawn("urxvt")),
     # Switch window focus to other pane(s) of stack
     Key([mod], "space", lazy.layout.next()),
 
@@ -69,7 +73,6 @@ keys = [
     # Unsplit = 1 window displayed, like Max layout, but still with
     # multiple stack panes
     Key([mod, "shift"], "Return", lazy.layout.toggle_split()),
-    Key([mod], "Return", lazy.spawn("sakura")),
 
     # Toggle between different layouts as defined below
     Key([mod], "Tab", lazy.next_layout()),
@@ -83,25 +86,68 @@ keys = [
     Key([mod, "shift"], "p", lazy.spawn("rofi-pass")),
     Key(["mod1", "control"], "l", lazy.spawn("slock")),
 
+    # Window controls
+    Key(
+        [mod], "k",
+        lazy.layout.down()                        # Switch between windows in current stack pane
+        ),
+    Key(
+        [mod], "j",
+        lazy.layout.up()                          # Switch between windows in current stack pane
+        ),
+    Key(
+        [mod, "shift"], "k",
+        lazy.layout.shuffle_down()                # Move windows down in current stack
+        ),
+    Key(
+        [mod, "shift"], "j",
+        lazy.layout.shuffle_up()                  # Move windows up in current stack
+        ),
+    Key(
+        [mod, "shift"], "l",
+        lazy.layout.grow(),                       # Grow size of current window (XmonadTall)
+        lazy.layout.increase_nmaster(),           # Increase number in master pane (Tile)
+        ),
+    Key(
+        [mod, "shift"], "h",
+        lazy.layout.shrink(),                     # Shrink size of current window (XmonadTall)
+        lazy.layout.decrease_nmaster(),           # Decrease number in master pane (Tile)
+        ),
+    Key(
+        [mod, "shift"], "Left",                   # Move window to workspace to the left
+        window_to_prev_group
+        ),
+    Key(
+        [mod, "shift"], "Right",                  # Move window to workspace to the right
+        window_to_next_group
+        ),
+    Key(
+        [mod], "n",
+        lazy.layout.normalize()                   # Restore all windows to default size ratios
+        ),
+    Key(
+        [mod], "m",
+        lazy.layout.maximize()                    # Toggle a window between minimum and maximum sizes
+        ),
 
-    # Bsp
-    Key([mod], "Down", lazy.layout.down()),
-    Key([mod], "Up", lazy.layout.up()),
-    Key([mod], "Left", lazy.layout.left()),
-    Key([mod], "Right", lazy.layout.right()),
-    Key([mod, "shift"], "Down", lazy.layout.shuffle_down()),
-    Key([mod, "shift"], "Up", lazy.layout.shuffle_up()),
-    Key([mod, "shift"], "Left", lazy.layout.shuffle_left()),
-    Key([mod, "shift"], "Right", lazy.layout.shuffle_right()),
-    Key([mod, "mod1"], "Down", lazy.layout.flip_down()),
-    Key([mod, "mod1"], "Up", lazy.layout.flip_up()),
-    Key([mod, "mod1"], "Left", lazy.layout.flip_left()),
-    Key([mod, "mod1"], "Right", lazy.layout.flip_right()),
-    Key([mod, "control"], "Down", lazy.layout.grow_down()),
-    Key([mod, "control"], "Up", lazy.layout.grow_up()),
-    Key([mod, "control"], "Left", lazy.layout.grow_left()),
-    Key([mod, "control"], "Right", lazy.layout.grow_right()),
-    Key([mod, "shift"], "n", lazy.layout.normalize()),
+    Key(
+        [mod, "shift"], "KP_Enter",
+        lazy.window.toggle_floating()             # Toggle floating
+        ),
+    Key(
+        [mod, "shift"], "space",
+        lazy.layout.rotate(),                     # Swap panes of split stack (Stack)
+        lazy.layout.flip()                        # Switch which side main pane occupies (XmonadTall)
+        ),
+    # Stack controls
+    Key(
+        [mod], "space",
+        lazy.layout.next()                        # Switch window focus to other pane(s) of stack
+        ),
+    Key(
+        [mod, "control"], "Return",
+        lazy.layout.toggle_split()                # Toggle between split and unsplit sides of stack
+        ),
 
 ]
 
@@ -116,14 +162,51 @@ for i in groups:
         Key([mod, "shift"], i.name, lazy.window.togroup(i.name)),
     ])
 
+
+layout_theme = {
+    "border_width": 2,
+    "margin": 10,
+    "border_focus": "AD69AF",
+    "border_normal": "1D2330"
+}
+
+border_args = {
+    "border_width": 2
+}
+
 layouts = [
-    layout.Bsp(),
-    layout.MonadTall(),
-    layout.VerticalTile(),
-    layout.Max(),
-    layout.Zoomy(),
-    layout.Floating()
+    layout.Max(**layout_theme),
+    layout.MonadTall(**layout_theme),
+    layout.MonadWide(**layout_theme),
+    layout.Bsp(**layout_theme),
+    layout.TreeTab(
+        font = "Ubuntu",
+        fontsize = 10,
+        sections = ["FIRST", "SECOND"],
+        section_fontsize = 11,
+        bg_color = "141414",
+        active_bg = "90C435",
+        active_fg = "000000",
+        inactive_bg = "384323",
+        inactive_fg = "a0a0a0",
+        padding_y = 5,
+        section_top = 10,
+        panel_width = 320,
+        **layout_theme
+        ),
+    layout.Slice(side="left", width=192, name="gimp", role="gimp-toolbox",
+        fallback=layout.Slice(side="right", width=256, role="gimp-dock",
+        fallback=layout.Stack(num_stacks=1, **border_args))),
+    #layout.Stack(stacks=2, **layout_theme),
+    #layout.Columns(**layout_theme),
+    #layout.RatioTile(**layout_theme),
+    #layout.VerticalTile(**layout_theme),
+    #layout.Tile(shift_windows=True, **layout_theme),
+    #layout.Matrix(**layout_theme),
+    #layout.Zoomy(**layout_theme),
+    layout.Floating(**layout_theme),
 ]
+
 
 widget_defaults = dict(
     font='Terminus (TTF)',
@@ -168,6 +251,19 @@ background=GREY),
                     widget.Clock(format='%Y-%m-%d %a %H:%M:%S', background=GREY),
                     widget.TextBox(text="◤ ", fontsize=45, padding=-8, foreground=GREY, background=DARK_GREY),
                     widget.CurrentLayout(background=DARK_GREY),
+                ],
+                24,
+             ),
+             bottom=bar.Bar(
+                [
+                    widget.Memory(),
+                    widget.Swap(),
+                    widget.Net(interface='re0'),
+                    widget.CPUGraph(),
+                    widget.MemoryGraph(),
+                    widget.SwapGraph(),
+                    widget.NetGraph(interface="auto"),
+                    widget.BitcoinTicker(currency="EUR"),
                 ],
                 24,
             ),
