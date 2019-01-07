@@ -242,8 +242,6 @@ for screen in range(0, num_screens):
                     widget.TextBox(text="◤ ", fontsize=45, padding=-8, foreground=GREY, background=DARK_GREY),
                     widget.Systray(background=DARK_GREY),
                     widget.TextBox(text="◤ ", fontsize=45, padding=-8, foreground=DARK_GREY, background=GREY),
-                    widget.TextBox(text=" ⚠", foreground=BLUE, fontsize=18, background=GREY),
-                    widget.Notify(background=GREY),
                     widget.TextBox(text=" ⌚", foreground=BLUE, fontsize=18, background=GREY),
                     widget.Clock(format='%Y-%m-%d %a %H:%M:%S', background=GREY),
                     widget.TextBox(text="◤ ", fontsize=45, padding=-8, foreground=GREY, background=DARK_GREY),
@@ -254,11 +252,9 @@ for screen in range(0, num_screens):
             bottom=bar.Bar(
                 [
                     widget.Memory(),
-                    widget.Swap(),
                     widget.Net(interface='re0'),
                     widget.CPUGraph(),
                     widget.MemoryGraph(),
-                    widget.SwapGraph(),
                     widget.NetGraph(interface="auto"),
                     widget.BitcoinTicker(currency="EUR"),
                 ],
