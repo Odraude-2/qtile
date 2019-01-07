@@ -166,7 +166,7 @@ for i in groups:
 layout_theme = {
     "border_width": 2,
     "margin": 10,
-    "border_focus": "AD69AF",
+    "border_focus": "007fcf",
     "border_normal": "1D2330"
 }
 
@@ -208,8 +208,8 @@ layouts = [
 widget_defaults = dict(
     font='Terminus (TTF)',
     fontsize=14,
-    padding=3,
-    background=GREY
+    padding=0,
+    background=BLUE
 )
 extension_defaults = widget_defaults.copy()
 
@@ -220,45 +220,34 @@ for screen in range(0, num_screens):
         Screen(
             top=bar.Bar(
                 [
-                    widget.Prompt(prompt=prompt, background=GREY),
-                    widget.TextBox(text="◤ ", fontsize=45, padding=-8, foreground=DARK_GREY, background=GREY),
-                    widget.CurrentLayoutIcon(background=GREY),
-                    widget.TextBox(text="◤ ", fontsize=45, padding=-8, foreground=GREY, background=DARK_GREY),
+                    widget.Prompt(prompt=prompt, background=BLUE),
+                    widget.TextBox(text=" ", fontsize=45, padding=-8, foreground=DARK_BLUE, background=BLUE),
+                    widget.CurrentLayoutIcon(background=BLUE),
+                    widget.TextBox(text=" ", fontsize=45, padding=-8, foreground=BLUE, background=DARK_BLUE),
                     widget.GroupBox(urgent_border=DARK_BLUE,
                                     disable_drag=True, highlight_method="block",
                                     this_screen_border=DARK_BLUE, other_screen_border=DARK_ORANGE,
                                     this_current_screen_border=BLUE, other_current_screen_border=ORANGE,
-                                    background=DARK_GREY,
+                                    background=DARK_BLUE,
                                     ),
-                    widget.TextBox(text="◤ ", fontsize=45, padding=-8, foreground=DARK_GREY,
-                                   background=GREY),
+                    widget.TextBox(text=" ", fontsize=45, padding=-8, foreground=DARK_BLUE,
+                                   background=BLUE),
                     widget.TaskList(
                         markup=True,
-                        markup_focused='<span background="#333333" foreground="#aaffaa">{}</span>',
-                        background=GREY,
-                        border=DARK_GREY,
+                        markup_focused='<span background="#005083" foreground="#aaffaa">{}</span>',
+                        background=BLUE,
+                        border=DARK_BLUE,
                         urgent_border=DARK_BLUE,
                     ),
-                    widget.TextBox(text="◤ ", fontsize=45, padding=-8, foreground=GREY, background=DARK_GREY),
-                    widget.Systray(background=DARK_GREY),
-                    widget.TextBox(text="◤ ", fontsize=45, padding=-8, foreground=DARK_GREY, background=GREY),
-                    widget.TextBox(text=" ⌚", foreground=BLUE, fontsize=18, background=GREY),
-                    widget.Clock(format='%Y-%m-%d %a %H:%M:%S', background=GREY),
-                    widget.TextBox(text="◤ ", fontsize=45, padding=-8, foreground=GREY, background=DARK_GREY),
-                    widget.CurrentLayout(background=DARK_GREY),
+                    widget.TextBox(text=" ", fontsize=45, padding=-8, foreground=DARK_BLUE, background=BLUE),
+                    widget.Systray(background=DARK_BLUE),
+                    widget.TextBox(text=" ", fontsize=45, padding=-8, foreground=BLUE, background=DARK_BLUE),
+                    widget.TextBox(text=" ⌚", foreground=BLUE, fontsize=18, background=BLUE),
+                    widget.Clock(format='%Y-%m-%d %a %H:%M:%S', background=BLUE),
+                    widget.TextBox(text=" ", fontsize=45, padding=-8, foreground=DARK_BLUE, background=BLUE),
+                    widget.CurrentLayout(background=DARK_BLUE),
                 ],
-                24,
-            ),
-            bottom=bar.Bar(
-                [
-                    widget.Memory(),
-                    widget.Net(interface='re0'),
-                    widget.CPUGraph(),
-                    widget.MemoryGraph(),
-                    widget.NetGraph(interface="auto"),
-                    widget.BitcoinTicker(currency="EUR"),
-                ],
-                24,
+                18,
             ),
         )
     )
