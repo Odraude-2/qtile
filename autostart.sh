@@ -8,3 +8,4 @@ compton --config ~/.config/compton/compton.conf &
 
 feh --randomize --bg-scale ~/.config/qtile/wallpapers/scifi
 urxvtd -q -o -f
+dunst &

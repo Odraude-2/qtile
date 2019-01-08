@@ -1,5 +1,5 @@
 [global]
-    font = Monospace 8
+    font = Terminus (TTF) 18
 
     # allow a small subset of html markup:
     # <b>bold</b>
@@ -59,11 +59,11 @@
     # right side of the screen.  Y is measured from the top and down respectevly.
     # The width can be negative. In this case the actual width is the
     # screen width minus the width defined in within the geometry option.
-    geometry = "300x5-30+20"
+    geometry = "300x5-30+32"
 
     # The transparency of the window. range: [0; 100]
     # This option will only work if a compositing windowmanager is present (e.g. xcompmgr, compiz, etc..)
-    transparency = 0
+    transparency = 10
 
     # Don't remove messages, if the user is idle (no mouse or keyboard input)
     # for longer than idle_threshold seconds.
@@ -110,7 +110,7 @@
     #  * foreground: use the same color as the foreground
     #  * frame: use the same color as the frame.
     #  * anything else will be interpreted as a X color
-    separator_color = frame
+    separator_color = auto
 
     # print a notification on startup
     # This is mainly for error detection, since dbus (re-)starts dunst
@@ -118,10 +118,10 @@
     startup_notification = true
 
     # dmenu path
-    dmenu = /usr/bin/dmenu -p dunst:
+    dmenu = /usr/local/bin/dmenu -p dunst:
 
     # browser for opening urls in context menu
-    browser = /usr/bin/firefox -new-tab
+    browser = /usr/local/bin/firefox -new-tab
 
 [frame]
     width = 0
@@ -134,16 +134,16 @@
     # xev might be helpful to find names for keys
 
     # close notification
-    close = mod4+m
+    close = mod1+m
 
     # close all notifications
-    close_all = mod4+shift+m
+    close_all = mod1+shift+m
 
     # redisplay last message(s)
-    history = mod4+n
+    history = mod1+n
 
     # context menu
-    context = mod4+shift+i
+    context = mod1+shift+i
 
 [urgency_low]
     # IMPORTANT: colors have to be defined in quotation marks.
