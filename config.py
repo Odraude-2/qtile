@@ -88,12 +88,20 @@ keys = [
 
     # Window controls
     Key(
-        [mod], "k",
-        lazy.layout.down()                        # Switch between windows in current stack pane
+        [mod], "h",
+        lazy.layout.left()                          # Switch between windows in current stack pane
     ),
     Key(
         [mod], "j",
         lazy.layout.up()                          # Switch between windows in current stack pane
+    ),
+    Key(
+        [mod], "k",
+        lazy.layout.down()                        # Switch between windows in current stack pane
+    ),
+    Key(
+        [mod], "l",
+        lazy.layout.right()                          # Switch between windows in current stack pane
     ),
     Key(
         [mod, "shift"], "k",
