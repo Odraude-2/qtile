@@ -113,22 +113,22 @@ keys = [
         lazy.layout.shrink(),                     # Shrink size of current window (XmonadTall)
         lazy.layout.decrease_nmaster(),           # Decrease number in master pane (Tile)
     ),
-Key(
-    [mod, "shift"], "Left",                   # Move window to workspace to the left
-    window_to_prev_group
-),
-Key(
-    [mod, "shift"], "Right",                  # Move window to workspace to the right
-    window_to_next_group
-),
-Key(
-    [mod], "n",
-    lazy.layout.normalize()                   # Restore all windows to default size ratios
-),
-Key(
-    [mod], "m",
-    lazy.layout.maximize()                    # Toggle a window between minimum and maximum sizes
-),
+    Key(
+        [mod, "shift"], "Left",                   # Move window to workspace to the left
+        window_to_prev_group
+    ),
+    Key(
+        [mod, "shift"], "Right",                  # Move window to workspace to the right
+        window_to_next_group
+    ),
+    Key(
+        [mod], "n",
+        lazy.layout.normalize()                   # Restore all windows to default size ratios
+    ),
+    Key(
+        [mod], "m",
+        lazy.layout.maximize()                    # Toggle a window between minimum and maximum sizes
+    ),
 
     Key(
         [mod, "shift"], "KP_Enter",
@@ -147,6 +147,36 @@ Key(
     Key(
         [mod, "control"], "Return",
         lazy.layout.toggle_split()                # Toggle between split and unsplit sides of stack
+    ),
+
+    # Laptop keys
+    Key(
+        [], "XF86AudioMute",
+        lazy.spawn("pulseaudio-ctl mute")
+    ),
+    Key(
+        [], "XF86AudioLowerVolume",
+        lazy.spawn("pulseaudio-ctl up")
+    ),
+    Key(
+        [], "XF86AudioRaiseVolume",
+        lazy.spawn("pulseaudio-ctl up")
+    ),
+    Key(
+        [], "XF86MonBrightnessUp",
+        lazy.spawn("light -A 10")
+    ),
+    Key(
+        [], "XF86MonBrightnessDown",
+        lazy.spawn("light -U 10")
+    ),
+    Key(
+        [], "XF86KbdBrightnessUp",
+        lazy.spawn("light -k -A 10")
+    ),
+    Key(
+        [], "XF86KbdBrightnessDown",
+        lazy.spawn("light -k -U 10")
     ),
 
 ]
