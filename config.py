@@ -59,6 +59,7 @@ DARK_ORANGE = "#582c00"
 
 mod = "mod4"
 hostname = socket.gethostname()
+homedir = os.getenv("HOME")
 
 keys = [
     Key([mod], "Return", lazy.spawn("urxvt")),
@@ -85,6 +86,7 @@ keys = [
     Key([mod], "p", lazy.spawn("rofi -show run")),
     Key([mod, "shift"], "p", lazy.spawn("rofi-pass")),
     Key(["mod1", "control"], "l", lazy.spawn("slock")),
+    Key([mod, "shift"], "w", lazy.spawn("sh -c 'feh --randomize --bg-scale {:s}/.config/qtile/wallpapers/*/*'".format(homedir))),
 
     # Window controls
     Key(
