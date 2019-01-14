@@ -6,6 +6,8 @@ r/unixporn post: <https://www.reddit.com/r/unixporn/comments/a7mdhg/qtile_my_new
 
 Software used: 
 
+- Depends on python-xlib (for multimonitor detection)
+
 - Screen locking: slock
 - Starting programs: rofi
 - Password manager: pass rofi-pass
